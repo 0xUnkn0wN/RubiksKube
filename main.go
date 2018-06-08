@@ -20,7 +20,7 @@ import (
 
 var masterPort = 6443
 var masterIP = ""
-var nodeHash string
+var nodeHash = ""
 
 type podNetwork struct {
 	RBACURL   string
