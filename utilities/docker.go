@@ -25,7 +25,7 @@ func InitDocker() error {
 // GetDockerVersion -
 func GetDockerVersion() (string, error) {
 	// docker version --format
-	version, err := exec.Command("docker", "version", "--format", "'{{.Client.Version}}'", "1>", "echo").Output()
+	version, err := exec.Command("docker", "version", "--format", "'{{.Client.Version}}'", "2>", "echo").Output()
 	if err != nil {
 		return "", err
 	}
