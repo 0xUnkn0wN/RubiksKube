@@ -52,7 +52,7 @@ func InitKubeadm() error {
 			return err
 		}
 
-		if err := exec.Command("apt-get", "install", "-y", "kubelet kubeadm kubectl").Run(); err != nil {
+		if err := exec.Command("apt-get", "install", "-y", "kubelet", "kubeadm", "kubectl").Run(); err != nil {
 			return err
 		}
 	}
@@ -63,7 +63,7 @@ func InitKubeadm() error {
 // GetKubeadmVersion -
 func GetKubeadmVersion() (string, error) {
 	// docker version --format
-	version, err := exec.Command("kubeadm", "version", "-o", "short", "2>", "echo").Output()
+	version, err := exec.Command("kubeadm", "version", "-o", "short").Output()
 	if err != nil {
 		return "", err
 	}

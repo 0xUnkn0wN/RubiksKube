@@ -1,6 +1,8 @@
 package utilities
 
-import "os/exec"
+import (
+	"os/exec"
+)
 
 // InitDocker -
 func InitDocker() error {
@@ -25,7 +27,7 @@ func InitDocker() error {
 // GetDockerVersion -
 func GetDockerVersion() (string, error) {
 	// docker version --format
-	version, err := exec.Command("docker", "version", "--format", "'{{.Client.Version}}'", "2>", "echo").Output()
+	version, err := exec.Command("docker", "version", "--format", "'{{.Client.Version}}'").Output()
 	if err != nil {
 		return "", err
 	}
