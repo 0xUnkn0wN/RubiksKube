@@ -10,11 +10,7 @@ import (
 // InitKubeadm -
 func InitKubeadm() error {
 	version, err := GetKubeadmVersion()
-	if err != nil {
-		return err
-	}
-
-	if version == "" {
+	if version == "" || err != nil {
 		resp, err := http.Get("https://packages.cloud.google.com/apt/doc/apt-key.gpg")
 		if err != nil {
 			return err

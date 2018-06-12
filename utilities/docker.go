@@ -7,11 +7,7 @@ import (
 // InitDocker -
 func InitDocker() error {
 	version, err := GetDockerVersion()
-	if err != nil {
-		return err
-	}
-
-	if version == "" {
+	if version == "" || err != nil {
 		if err := exec.Command("apt-get", "update").Run(); err != nil {
 			return err
 		}
