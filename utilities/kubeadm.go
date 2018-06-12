@@ -63,7 +63,7 @@ func InitKubeadm() error {
 // GetKubeadmVersion -
 func GetKubeadmVersion() (string, error) {
 	// docker version --format
-	version, err := exec.Command("kubeadm", "version", "-o", "short", "1>", "echo").Output()
+	version, err := exec.Command("kubeadm", "version", "-o", "short", "2>", "echo").Output()
 	if err != nil {
 		return "", err
 	}
