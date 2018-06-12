@@ -25,19 +25,23 @@ func InitKubeadm() error {
 			return err
 		}
 
-		addSourceCommand := exec.Command("add-key", "-")
-		addSourceCommandPipe, err := addSourceCommand.StdinPipe()
+		tmp, err := ioutil.TempFile("", "key")
 		if err != nil {
 			return err
 		}
 
-		if err := addSourceCommand.Start(); err != nil {
+		if _, err := tmp.Write(responseContent); err != nil {
 			return err
 		}
 
-		if _, err := addSourceCommandPipe.Write(responseContent); err != nil {
+		if err := tmp.Close(); err != nil {
 			return err
 		}
+
+		if err := exec.Command("add-key", "add", tmp.Name()).Run(); err != nil {
+			return err
+		}
+		os.Remove(tmp.Name())
 
 		sourceFile, err := os.Create("/etc/apt/sources.list.d/kubernetes.list")
 		if err != nil {

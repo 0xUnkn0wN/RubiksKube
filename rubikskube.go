@@ -30,16 +30,16 @@ func main() {
 		log.Fatal("Running with swap on is not supported, please disable swap!")
 	}
 
-	// install docker TODO: check if docker is installed
-	if utilities.InitDocker() != nil {
+	if err := utilities.InitDocker(); err != nil {
 		log.Fatal("docker: not successfully initialized")
+		log.Fatal(err)
 		return
 	}
 	fmt.Println("docker: ready")
 
-	// install kubeadm TODO: check if kubeadm is installed
-	if utilities.InitKubeadm() != nil {
+	if err := utilities.InitKubeadm(); err != nil {
 		log.Fatal("kubeadm: not successfully initialized")
+		log.Fatal(err)
 		return
 	}
 	fmt.Println("kubeadm: ready")
