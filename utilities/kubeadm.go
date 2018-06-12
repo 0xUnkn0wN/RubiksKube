@@ -34,7 +34,7 @@ func InitKubeadm() error {
 			return err
 		}
 
-		if err := exec.Command("add-key", "add", tmp.Name()).Run(); err != nil {
+		if err := exec.Command("apt-key", "add", tmp.Name()).Run(); err != nil {
 			return err
 		}
 		os.Remove(tmp.Name())
