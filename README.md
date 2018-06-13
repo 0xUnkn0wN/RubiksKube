@@ -1,5 +1,6 @@
 # RubiksKube
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 Easy kubernetes for ubuntu bare metal
 
 Install RubiksKube on all servers
@@ -17,6 +18,7 @@ $ rubikskube -add-node={HASH}
 Now just have fun with your small kubernetes cluster :grimacing: :thumbsup:
 
 ##### ToDo
+- [ ] Add HA-Cluster support
 - [ ] Integrate Cobra for better CLI feeling
 - [ ] Add docs
 - [ ] Add tests

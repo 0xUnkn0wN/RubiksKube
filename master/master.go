@@ -16,9 +16,6 @@ import (
 	"github.com/JonathanHeinz/RubiksKube/utilities"
 )
 
-// DefaultPort -
-var DefaultPort = 6443
-
 // InitMaster -
 func InitMaster() (string, error) {
 	var nodeCommandAsBytes []byte
@@ -37,24 +34,26 @@ func InitMaster() (string, error) {
 
 	nodeCommand := string(nodeCommandAsBytes)
 
-	// regex token
-	nodeParams.Token = regexp.MustCompile(`--token\s(.*)\s-`).FindAllStringSubmatch(nodeCommand, 0)[0][0]
+	reg := regexp.MustCompile(`(?m)kubeadm join (.*)\:(.*) --token\s(.*)\s--discovery-token-ca-cert-hash sha256:(.*)`).FindAllStringSubmatch(nodeCommand, -1)
 
-	fmt.Println("TOKEN: ", nodeParams.Token)
 	// regex ip
-	nodeParams.IP = regexp.MustCompile(`kubeadm\sjoin\s([0-9\.]*)`).FindAllStringSubmatch(nodeCommand, 0)[0][0]
+	nodeParams.IP = reg[0][1]
 
-	fmt.Println("IP: ", nodeParams.IP)
 	// regex port
-	nodeParams.Port, err = strconv.Atoi(regexp.MustCompile(`kubeadm\sjoin.*\:([0-9]*)\s`).FindAllStringSubmatch(nodeCommand, 0)[0][0])
+	nodeParams.Port, err = strconv.Atoi(reg[0][2])
 	if err != nil {
-		log.Fatal("can't convert to int")
+		log.Fatal(err)
 	}
 
-	fmt.Println("PORT: ", nodeParams.Port)
-	// regex hash
-	nodeParams.Hash = regexp.MustCompile(`sha256:(.*)`).FindAllStringSubmatch(nodeCommand, 0)[0][0]
+	// regex token
+	nodeParams.Token = reg[0][3]
 
+	// regex hash
+	nodeParams.Hash = reg[0][4]
+
+	fmt.Println("ENDPOINT: ", nodeParams.IP+":"+strconv.Itoa(nodeParams.Port))
+	fmt.Println("TOKEN: ", nodeParams.Token)
+	fmt.Println("PORT: ", nodeParams.Port)
 	fmt.Println("HASH: ", nodeParams.Hash)
 
 	// create cluster user
